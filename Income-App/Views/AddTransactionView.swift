@@ -58,11 +58,22 @@ struct AddTransactionView: View {
                 
                 let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
                 
-                transactions.append(transaction)
+                if let transactionToEdit {
+                    guard let indexOfTransaction = transactions.firstIndex(of: transactionToEdit) else {
+                        alertTitle = "Something went wrong"
+                        alertMessage = "Cannot update this transaction right now."
+                        showAlert = true
+                        return
+                    }
+                    transactions[indexOfTransaction] = transaction
+                } else {
+                    transactions.append(transaction)
+                }
+                
                 dismiss()
                 
             } label: {
-                Text("Create")
+                Text(transactionToEdit == nil ? "Create" : "Update")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(.white)
                     .frame(height: 40)

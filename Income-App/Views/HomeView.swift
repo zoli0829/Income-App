@@ -9,12 +9,48 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State private var transactions: [Transaction] = [
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date())
-    ]
+    @State private var transactions: [Transaction] = []
     @State private var showAddTransactionView = false
     @State private var transactionToEdit: Transaction?
+    
+    var expenses: String {
+        var sumExpenses = 0.0
+        for transaction in transactions {
+            if transaction.type == .expense {
+                sumExpenses += transaction.amount
+            }
+        }
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        return numberFormatter.string(from: sumExpenses as NSNumber) ?? "$0.00"
+    }
+    
+    var income: String {
+        var sumIncome = 0.0
+        for transaction in transactions {
+            if transaction.type == .income {
+                sumIncome += transaction.amount
+            }
+        }
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        return numberFormatter.string(from: sumIncome as NSNumber) ?? "$0.00"
+    }
+    
+    var total: String {
+        var total = 0.0
+        for transaction in transactions {
+            switch transaction.type {
+            case .income:
+                total += transaction.amount
+            case .expense:
+                total -= transaction.amount
+            }
+        }
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        return numberFormatter.string(from: total as NSNumber) ?? "$0.00"
+    }
     
     fileprivate func FloatingButton() -> some View {
         VStack {
@@ -37,37 +73,45 @@ struct HomeView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
                 .fill(.primaryLightGray)
+            
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    VStack {
+                    VStack(alignment: .leading) {
                         Text("BALANCE")
                             .font(.caption)
                             .foregroundStyle(.white)
-                        Text("$2")
+                        
+                        Text("\(total)")
                             .font(.system(size: 42, weight: .light))
                             .foregroundStyle(.white)
                     }
+                    
                     Spacer()
                 }
                 .padding(.top)
+                
                 HStack(spacing: 25) {
                     VStack(alignment: .leading) {
                         Text("Expense")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
-                        Text("$22")
+                        
+                        Text("\(expenses)")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(.white)
                     }
+                    
                     VStack(alignment: .leading) {
                         Text("Income")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
-                        Text("$22")
+                        
+                        Text("\(income)")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(.white)
                     }
                 }
+                
                 Spacer()
             }
             .padding(.horizontal)
@@ -82,6 +126,7 @@ struct HomeView: View {
             ZStack {
                 VStack {
                     BalanceView()
+                    
                     List {
                         ForEach(transactions) { transaction in
                             Button {
@@ -95,6 +140,7 @@ struct HomeView: View {
                     .scrollContentBackground(.hidden)
                 }
                 .padding()
+                
                 FloatingButton()
             }
             .navigationTitle("Income")
