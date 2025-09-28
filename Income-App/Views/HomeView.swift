@@ -13,40 +13,45 @@ struct HomeView: View {
     @State private var showAddTransactionView = false
     @State private var transactionToEdit: Transaction?
     
-    var expenses: String {
-        var sumExpenses = 0.0
-        for transaction in transactions {
-            if transaction.type == .expense {
-                sumExpenses += transaction.amount
-            }
-        }
+    private var expenses: String {
+        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
+        
+//        for transaction in transactions {
+//            if transaction.type == .expense {
+//                sumExpenses += transaction.amount
+//            }
+//        }
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: sumExpenses as NSNumber) ?? "$0.00"
     }
     
     var income: String {
-        var sumIncome = 0.0
-        for transaction in transactions {
-            if transaction.type == .income {
-                sumIncome += transaction.amount
-            }
-        }
+        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        
+//        for transaction in transactions {
+//            if transaction.type == .income {
+//                sumIncome += transaction.amount
+//            }
+//        }
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: sumIncome as NSNumber) ?? "$0.00"
     }
     
-    var total: String {
-        var total = 0.0
-        for transaction in transactions {
-            switch transaction.type {
-            case .income:
-                total += transaction.amount
-            case .expense:
-                total -= transaction.amount
-            }
-        }
+    private var total: String {
+        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        let total = sumIncome - sumExpenses
+        
+//        for transaction in transactions {
+//            switch transaction.type {
+//            case .income:
+//                total += transaction.amount
+//            case .expense:
+//                total -= transaction.amount
+//            }
+//        }
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: total as NSNumber) ?? "$0.00"
