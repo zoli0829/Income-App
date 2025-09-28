@@ -14,6 +14,7 @@ struct HomeView: View {
         Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date())
     ]
     @State private var showAddTransactionView = false
+    @State private var transactionToEdit: Transaction?
     
     fileprivate func FloatingButton() -> some View {
         VStack {
@@ -84,7 +85,7 @@ struct HomeView: View {
                     List {
                         ForEach(transactions) { transaction in
                             Button {
-                                showAddTransactionView = true
+                                transactionToEdit = transaction
                             } label: {
                                 TransactionView(transaction: transaction)
                                     .foregroundStyle(.black)
@@ -97,6 +98,9 @@ struct HomeView: View {
                 FloatingButton()
             }
             .navigationTitle("Income")
+            .navigationDestination(item: $transactionToEdit, destination: { transactionToEdit in
+                AddTransactionView(transactionToEdit: transactionToEdit, transactions: $transactions,)
+            })
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
                 AddTransactionView(transactions: $transactions)
             })
