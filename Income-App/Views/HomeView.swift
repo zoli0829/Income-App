@@ -11,16 +11,14 @@ struct HomeView: View {
     
     @State private var transactions: [Transaction] = [
         Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
+        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date())
     ]
     
     fileprivate func FloatingButton() -> some View {
         VStack {
             Spacer()
             NavigationLink {
-                AddTransactionView()
+                AddTransactionView(transactions: $transactions)
             } label: {
                 Text("+")
                     .font(.largeTitle)
