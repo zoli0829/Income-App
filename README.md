@@ -17,8 +17,8 @@ Users can **add incomes and expenses, edit or delete them**, and the app automat
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/1.png" alt="Income List Screenshot" width="300"/>
-  <img src="screenshots/2.png" alt="Add Entry Screenshot" width="300"/>
+  <img src="screenshots/1.png" alt="Income List Screenshot"/>
+  <img src="screenshots/2.png" alt="Add Entry Screenshot"/>
 </p>
 
 ---
