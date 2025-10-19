@@ -12,6 +12,7 @@ struct HomeView: View {
     @State private var transactions: [Transaction] = []
     @State private var showAddTransactionView = false
     @State private var transactionToEdit: Transaction?
+    @State private var showSettings = false
     
     private var expenses: String {
         let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
@@ -156,10 +157,13 @@ struct HomeView: View {
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
                 AddTransactionView(transactions: $transactions)
             })
+            .sheet(isPresented: $showSettings, content: {
+                SettingsView()
+            })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        
+                        showSettings = true
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundStyle(.black)
