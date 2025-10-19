@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var orderDescending = false
+    @AppStorage("orderDescending") private var orderDescending = false
     @State private var currency: Currency = .usd
     @State private var filterMinimum = 0.0
     
