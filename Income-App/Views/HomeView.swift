@@ -15,35 +15,28 @@ struct HomeView: View {
     @State private var showSettings = false
     
     @AppStorage("orderDescending") var orderDescending = false
+    @AppStorage("currency") var currency: Currency = .usd
+    @AppStorage("filterMinimum") var filterMinimum = 0.0
     
     private var displayTransactions: [Transaction] {
         let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.date < $1.date }) : transactions.sorted(by: { $0.date > $1.date })
-        return sortedTransactions
+        let filteredTransactions = sortedTransactions.filter({ $0.amount > filterMinimum })
+        return filteredTransactions
     }
     
     private var expenses: String {
         let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
-        
-//        for transaction in transactions {
-//            if transaction.type == .expense {
-//                sumExpenses += transaction.amount
-//            }
-//        }
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
+        numberFormatter.locale = currency.locale
         return numberFormatter.string(from: sumExpenses as NSNumber) ?? "$0.00"
     }
     
     var income: String {
         let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
-        
-//        for transaction in transactions {
-//            if transaction.type == .income {
-//                sumIncome += transaction.amount
-//            }
-//        }
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
+        numberFormatter.locale = currency.locale
         return numberFormatter.string(from: sumIncome as NSNumber) ?? "$0.00"
     }
     
@@ -51,15 +44,6 @@ struct HomeView: View {
         let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
         let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
         let total = sumIncome - sumExpenses
-        
-//        for transaction in transactions {
-//            switch transaction.type {
-//            case .income:
-//                total += transaction.amount
-//            case .expense:
-//                total -= transaction.amount
-//            }
-//        }
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: total as NSNumber) ?? "$0.00"
@@ -175,7 +159,7 @@ struct HomeView: View {
                         Image(systemName: "gearshape.fill")
                             .foregroundStyle(.black)
                     }
-
+                    
                 }
             }
         }
