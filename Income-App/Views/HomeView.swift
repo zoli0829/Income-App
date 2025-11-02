@@ -27,16 +27,21 @@ struct HomeView: View {
     
     @State private var transactions: [Transaction] = []
     @State private var showAddTransactionView = false
-    @State private var transactionToEdit: Transaction?
+    @State private var transactionToEdit: TransactionItem?
     @State private var showSettings = false
+    
+    @FetchRequest(sortDescriptors: []) var transactionsCoreData: FetchedResults<TransactionItem>
     
     @AppStorage("orderDescending") var orderDescending = false
     @AppStorage("currency") var currency: Currency = .usd
     @AppStorage("filterMinimum") var filterMinimum = 0.0
     
-    private var displayTransactions: [Transaction] {
-        let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.date < $1.date }) : transactions.sorted(by: { $0.date > $1.date })
-        let filteredTransactions = sortedTransactions.filter({ $0.amount > filterMinimum })
+    private var displayTransactions: [TransactionItem] {
+        let sortedTransactions = orderDescending ? transactionsCoreData.sorted(by: { $0.wrappedDate < $1.wrappedDate }) : transactionsCoreData.sorted(by: { $0.wrappedDate > $1.wrappedDate })
+        guard filterMinimum > 0 else {
+            return sortedTransactions
+        }
+        let filteredTransactions = sortedTransactions.filter({$0.amount > filterMinimum})
         return filteredTransactions
     }
     
