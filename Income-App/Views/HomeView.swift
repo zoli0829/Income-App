@@ -36,6 +36,9 @@ struct HomeView: View {
     @AppStorage("currency") var currency: Currency = .usd
     @AppStorage("filterMinimum") var filterMinimum = 0.0
     
+    @Environment(\.managedObjectContext) private var viewContext
+
+    
     private var displayTransactions: [TransactionItem] {
         let sortedTransactions = orderDescending ? transactionsCoreData.sorted(by: { $0.wrappedDate < $1.wrappedDate }) : transactionsCoreData.sorted(by: { $0.wrappedDate > $1.wrappedDate })
         guard filterMinimum > 0 else {
@@ -187,7 +190,10 @@ struct HomeView: View {
     }
     
     private func delete(at offsets: IndexSet) {
-        transactions.remove(atOffsets: offsets)
+        for index in offsets {
+            let transactionToDelete = transactionsCoreData[index]
+            viewContext.delete(transactionToDelete)
+        }
     }
 }
 
