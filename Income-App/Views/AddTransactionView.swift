@@ -59,8 +59,6 @@ struct AddTransactionView: View {
                     return
                 }
                 
-                let transaction = Transaction()
-                
                 if let transactionToEdit {
                     transactionToEdit.title = transactionTitle
                     transactionToEdit.amount = amount
