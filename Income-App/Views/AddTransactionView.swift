@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AddTransactionView: View {
     var transactionToEdit: TransactionItem?
-    @Binding var transactions: [Transaction]
     @State private var amount: Double = 0.0
     @State private var transactionTitle = ""
     @State private var selectedTransactionType: TransactionType = .expense
@@ -60,7 +59,7 @@ struct AddTransactionView: View {
                     return
                 }
                 
-                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
+                let transaction = Transaction()
                 
                 if let transactionToEdit {
                     transactionToEdit.title = transactionTitle
@@ -135,5 +134,5 @@ struct AddTransactionView: View {
 }
 
 #Preview {
-    AddTransactionView(transactions: .constant([]))
+    AddTransactionView()
 }
