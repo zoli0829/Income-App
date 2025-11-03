@@ -22,6 +22,7 @@
  */
 
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
     
@@ -200,5 +201,6 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    let dataManager = DataManager.sharedPreview
+    return HomeView().environment(\.managedObjectContext, dataManager.container.viewContext)
 }
