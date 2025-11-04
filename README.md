@@ -1,6 +1,6 @@
-# Income & Expense Tracker (SwiftUI)
+# Income & Expense Tracker (SwiftUI and Core Data)
 
-A simple **Income & Expense Tracker** built with SwiftUI.  
+A simple **Income & Expense Tracker** built with SwiftUI and Core Data.  
 Users can **add incomes and expenses, edit or delete them**, and the app automatically updates the **balance**.  
 
 ---
@@ -17,8 +17,9 @@ Users can **add incomes and expenses, edit or delete them**, and the app automat
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/1.png" alt="Income List Screenshot"/>
-  <img src="screenshots/2.png" alt="Add Entry Screenshot"/>
+  <img src="screenshots/homeView.png" alt="Home View Screenshot" width="300"/>
+  <img src="screenshots/addTransactionView.png" alt="Add Transaction Screenshot" width="300"/>
+  <img src="screenshots/settingsView.png" alt="Settings Screenshot" width="300"/>
 </p>
 
 ---
@@ -26,10 +27,5 @@ Users can **add incomes and expenses, edit or delete them**, and the app automat
 ## Getting Started
 
 ### Requirements
-- iOS 17+
+- iOS 26+
 - Xcode 15+
-
-### Installation
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/your-username/income-tracker-swiftui.git
