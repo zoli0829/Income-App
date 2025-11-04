@@ -150,15 +150,12 @@ struct HomeView: View {
                     
                     List {
                         ForEach(displayTransactions) { transaction in
-                            TransactionView(transaction: transaction)
-                                .foregroundStyle(.black)
-                            
-//                            Button {
-//                                transactionToEdit = transaction
-//                            } label: {
-//                                TransactionView(transaction: transaction)
-//                                    .foregroundStyle(.black)
-//                            }
+                            Button {
+                                transactionToEdit = transaction
+                            } label: {
+                                TransactionView(transaction: transaction)
+                                    .foregroundStyle(.black)
+                            }
                         }
                         .onDelete(perform: delete)
                     }
